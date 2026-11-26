@@ -1,0 +1,365 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#111715">
+  <title>Stillpoint — a little room to breathe</title>
+  <style>
+    :root{color-scheme:dark;--bg:#111715;--card:#1b2420;--line:#34443a;--text:#eef3e9;--muted:#a0b0a1;--sage:#c6e8aa;--yellow:#e6cf8e}
+    *{box-sizing:border-box}
+    body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 50% 34%,#25392e 0%,#151f1a 36%,var(--bg) 75%);color:var(--text);font:15px/1.5 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+    button,input{font:inherit}
+    button{cursor:pointer}
+    button:focus-visible,input:focus-visible,summary:focus-visible{outline:2px solid var(--sage);outline-offset:4px}
+    .wrap{width:min(1120px,calc(100% - 48px));margin:auto}
+    header{height:90px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #ffffff13}
+    .brand{display:flex;align-items:center;gap:10px;font-weight:700;letter-spacing:-.04em;font-size:20px}
+    .brand-icon{color:var(--sage);font-size:23px}
+    .header-right{display:flex;align-items:center;gap:12px}
+    .streak{border:1px solid var(--line);border-radius:100px;padding:8px 13px;color:#d4dece;font-size:13px;white-space:nowrap}
+    .streak span{color:var(--yellow);margin-right:5px}
+    .icon-button{width:38px;height:38px;border:1px solid var(--line);border-radius:50%;background:#ffffff08;color:var(--text);display:grid;place-items:center}
+    .icon-button svg{width:18px;height:18px}
+    main{display:grid;grid-template-columns:1fr 350px;gap:70px;align-items:center;padding:65px 0 55px}
+    .intro{text-align:center}
+    .eyebrow{display:inline-flex;align-items:center;gap:8px;color:var(--sage);font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase}
+    .eyebrow:before{content:"";width:6px;height:6px;border-radius:50%;background:var(--sage);box-shadow:0 0 12px var(--sage)}
+    h1{font-family:Georgia,"Times New Roman",serif;font-weight:400;letter-spacing:-.045em;font-size:clamp(39px,5vw,62px);line-height:1.04;margin:17px 0 12px}
+    h1 em{font-weight:400;color:var(--sage)}
+    .subtitle{color:var(--muted);margin:0}
+    .pacer-area{position:relative;width:min(100%,390px);aspect-ratio:1;margin:20px auto 4px;display:grid;place-items:center}
+    .orbit{position:absolute;border:1px solid #b6d2b312;border-radius:50%;inset:1%}
+    .orbit:nth-child(2){inset:10%;border-color:#b6d2b31a}
+    .orbit:nth-child(3){inset:19%;border-color:#b6d2b322}
+    .orbit:after{content:"";position:absolute;top:17%;left:16%;width:4px;height:4px;border-radius:50%;background:#b4d7a7;box-shadow:0 0 10px #d5f8c5}
+    .orb{width:54%;aspect-ratio:1;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle at 34% 26%,#c2e6ae 0%,#8abf8d 21%,#4c8466 57%,#2d5746 100%);box-shadow:0 0 38px #99daa33d,0 0 90px #6aa67e20,inset 0 0 26px #e3ffdc35;will-change:transform}
+    .orb-content{display:flex;flex-direction:column;align-items:center;color:#142a1b;transform:scale(1);text-align:center}
+    .orb-small{font-size:10px;text-transform:uppercase;letter-spacing:.16em;font-weight:700;opacity:.7}
+    .orb-title{font-family:Georgia,serif;font-size:24px;letter-spacing:-.03em}
+    .orb-time{font-size:13px;font-weight:650;margin-top:3px}
+    .session-meta{display:flex;justify-content:center;align-items:center;gap:12px;color:#a8b8a7;font-size:12px;margin:0 0 19px}
+    .session-meta i{width:3px;height:3px;background:#81927f;border-radius:50%}
+    .primary{border:0;border-radius:100px;background:var(--sage);color:#182a1b;font-weight:700;padding:14px 29px;min-width:195px;box-shadow:0 7px 25px #9cce9b20;transition:transform .2s,background .2s}
+    .primary:hover{background:#d7f3c2;transform:translateY(-2px)}
+    .hint{color:#8e9f8f;font-size:12px;min-height:20px;margin:13px 0 0}
+    .side{display:flex;flex-direction:column;gap:14px}
+    .card{background:linear-gradient(145deg,#202c25ee,#19221eee);border:1px solid #ffffff12;border-radius:20px;padding:22px}
+    .card-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+    .card-icon{width:35px;height:35px;border-radius:11px;display:grid;place-items:center;background:#b9dda51a;color:var(--sage);font-size:18px}
+    .card-label{color:#819384;font-weight:700;font-size:10px;letter-spacing:.14em;text-transform:uppercase}
+    h2{font-family:Georgia,serif;font-size:23px;letter-spacing:-.025em;font-weight:400;margin:0 0 7px}
+    .card p{color:var(--muted);font-size:13px;margin:0;line-height:1.65}
+    .rhythm{display:flex;align-items:center;gap:12px;margin-top:19px}
+    .rhythm-part{flex:1;background:#ffffff08;border:1px solid #ffffff0a;border-radius:12px;padding:10px 12px}
+    .rhythm-part strong{display:block;color:#e0ead9;font-size:17px;font-weight:600}
+    .rhythm-part small{color:#97a99a;font-size:11px}
+    .rhythm-arrow{color:#79917d}
+    .time-row{display:flex;align-items:center;gap:8px;margin-top:17px}
+    input[type=time]{min-width:0;flex:1;color:var(--text);background:#101a14;border:1px solid var(--line);border-radius:10px;padding:10px}
+    .secondary{border:1px solid #607c61;border-radius:10px;background:#344a37;color:#e4f2dc;padding:10px 12px;font-weight:600;font-size:12px}
+    .secondary:hover{background:#425d45}
+    .calendar{display:inline-block;background:none;border:0;padding:13px 0 0;color:var(--sage);font-size:12px;text-align:left;text-decoration:underline;text-underline-offset:3px}
+    .reminder-note{font-size:11px!important;color:#8da090!important;margin-top:10px!important}
+    .status{color:var(--sage)!important;font-size:12px!important;margin-top:9px!important;min-height:1em}
+    footer{border-top:1px solid #ffffff13;padding:23px 0 28px;color:#839688;font-size:12px;display:flex;justify-content:space-between;gap:15px}
+    .footer-heart{color:var(--sage)}
+    @media(max-width:780px){main{grid-template-columns:1fr;gap:35px;padding-top:45px}.side{display:grid;grid-template-columns:1fr 1fr}.pacer-area{width:min(100%,340px)}}
+    @media(max-width:540px){.wrap{width:calc(100% - 32px)}header{height:72px}.side{grid-template-columns:1fr}main{padding-top:38px}.pacer-area{width:min(100%,310px);margin-top:13px}footer{flex-direction:column;gap:5px}.streak{font-size:12px}.brand{font-size:18px}}
+    @media(prefers-reduced-motion:reduce){.primary{transition:none}.orb{will-change:auto}}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="brand"><span class="brand-icon" aria-hidden="true">✳</span> stillpoint</div>
+      <div class="header-right">
+        <div class="streak" id="streak"><span aria-hidden="true">✦</span> 0 day streak</div>
+        <button class="icon-button" id="mute" type="button" aria-label="Mute sounds" title="Mute sounds" aria-pressed="false">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path id="sound-waves" d="M16 9a4 4 0 0 1 0 6M19 6a8 8 0 0 1 0 12"/></svg>
+        </button>
+      </div>
+    </header>
+    <main>
+      <section class="intro" aria-labelledby="heading">
+        <div class="eyebrow">A little space for yourself</div>
+        <h1 id="heading">Come back to <em>you.</em></h1>
+        <p class="subtitle">Just two minutes. Nothing else you need to do.</p>
+        <div class="pacer-area" aria-label="Breathing visual">
+          <div class="orbit"></div><div class="orbit"></div><div class="orbit"></div>
+          <div class="orb" id="orb">
+            <div class="orb-content">
+              <span class="orb-small" id="orb-label">your moment</span>
+              <span class="orb-title" id="phase">Ready?</span>
+              <span class="orb-time" id="phase-time">2:00</span>
+            </div>
+          </div>
+        </div>
+        <div class="session-meta"><span>2 MINUTES</span><i></i><span>12 BREATHS</span><i></i><span id="remaining">AT YOUR OWN PACE</span></div>
+        <button class="primary" id="start" type="button">Begin your reset &nbsp; →</button>
+        <p class="hint" id="session-message" aria-live="polite">A small pause can make a little room.</p>
+      </section>
+      <aside class="side" aria-label="Your breathing practice">
+        <section class="card">
+          <div class="card-top"><span class="card-icon" aria-hidden="true">◌</span><span class="card-label">The practice</span></div>
+          <h2>Find your rhythm.</h2>
+          <p>Follow the circle as a gentle sound bath surrounds you. Breathe in, and let your exhale be a little longer.</p>
+          <div class="rhythm"><div class="rhythm-part"><strong>4 sec</strong><small>Breathe in</small></div><span class="rhythm-arrow" aria-hidden="true">→</span><div class="rhythm-part"><strong>6 sec</strong><small>Breathe out</small></div></div>
+        </section>
+        <section class="card">
+          <div class="card-top"><span class="card-icon" aria-hidden="true">☼</span><span class="card-label">A gentle nudge</span></div>
+          <h2>Make space daily.</h2>
+          <p>Pick a moment that feels good for you. No pressure, ever.</p>
+          <div class="time-row">
+            <input id="reminder-time" type="time" value="09:00" aria-label="Daily reminder time">
+            <button class="secondary" id="enable-reminder" type="button">Enable reminder</button>
+          </div>
+          <button class="calendar" id="calendar" type="button">↓ &nbsp; Add to calendar (.ics)</button>
+          <p class="reminder-note">Browser reminders work only while this page is open. For a reminder when it’s closed, use your calendar.</p>
+          <p class="status" id="reminder-status" role="status"></p>
+        </section>
+      </aside>
+    </main>
+    <footer><span>A little less rush. A little more <span class="footer-heart">✳</span> you.</span><span>Made for moments, not milestones.</span></footer>
+  </div>
+  <script>
+    (() => {
+      'use strict';
+      const $ = id => document.getElementById(id);
+      const keys = { streak:'stillpoint-streak', muted:'stillpoint-muted', reminder:'stillpoint-reminder', notified:'stillpoint-notified' };
+      const storage = {
+        get(key) { try { return localStorage.getItem(key); } catch { return null; } },
+        set(key, value) { try { localStorage.setItem(key, value); return true; } catch { return false; } }
+      };
+      const todayKey = (date = new Date()) => [date.getFullYear(), String(date.getMonth()+1).padStart(2,'0'), String(date.getDate()).padStart(2,'0')].join('-');
+      const previousDay = () => { const d = new Date(); d.setDate(d.getDate()-1); return todayKey(d); };
+      function readStreak() {
+        try {
+          const value = JSON.parse(storage.get(keys.streak) || '{}');
+          return Number.isInteger(value.count) && value.count > 0 && /^\d{4}-\d{2}-\d{2}$/.test(value.date) ? value : {count:0,date:''};
+        } catch { return {count:0,date:''}; }
+      }
+      function showStreak() {
+        const s = readStreak();
+        const count = s.date === todayKey() || s.date === previousDay() ? s.count : 0;
+        $('streak').innerHTML = '<span aria-hidden="true">✦</span> ' + count + ' day' + (count === 1 ? '' : 's') + ' streak';
+      }
+      function recordStreak() {
+        const s = readStreak(), today = todayKey();
+        const count = s.date === today ? s.count : s.date === previousDay() ? s.count + 1 : 1;
+        const saved = storage.set(keys.streak, JSON.stringify({date:today,count}));
+        showStreak();
+        return {count,saved};
+      }
+      showStreak();
+      let muted = storage.get(keys.muted) === 'true';
+      let audio, soundOutput, bath;
+      function updateMute() {
+        $('mute').setAttribute('aria-pressed', String(muted));
+        $('mute').setAttribute('aria-label', muted ? 'Unmute sounds' : 'Mute sounds');
+        $('mute').title = muted ? 'Unmute sounds' : 'Mute sounds';
+        $('sound-waves').setAttribute('d', muted ? 'M16 9l5 6M21 9l-5 6' : 'M16 9a4 4 0 0 1 0 6M19 6a8 8 0 0 1 0 12');
+      }
+      updateMute();
+      $('mute').addEventListener('click', () => {
+        muted = !muted; storage.set(keys.muted, String(muted)); updateMute();
+        if (soundOutput) soundOutput.gain.setTargetAtTime(muted ? 0 : 1, audio.currentTime, .02);
+        if (muted) stopBath();
+        else unlockAudio().then(() => { if (running && !muted) startBath(); });
+      });
+      function unlockAudio() {
+        if (muted) return Promise.resolve();
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        if (!AudioContext) { $('session-message').textContent = 'Sound is unavailable in this browser; you can still follow the circle.'; return Promise.resolve(); }
+        try {
+          if (!audio) {
+            audio = new AudioContext();
+            soundOutput = audio.createGain();
+            soundOutput.connect(audio.destination);
+          }
+          return (audio.state === 'suspended' ? audio.resume() : Promise.resolve()).catch(() => {
+            $('session-message').textContent = 'Sound could not be enabled; you can still follow the circle.';
+          });
+        } catch {
+          $('session-message').textContent = 'Sound could not be enabled; you can still follow the circle.';
+          return Promise.resolve();
+        }
+      }
+      function startBath() {
+        if (bath || !audio || audio.state !== 'running' || muted) return;
+        const now = audio.currentTime, output = audio.createGain(), sources = [];
+        output.gain.setValueAtTime(0, now);
+        output.gain.linearRampToValueAtTime(1, now + 3);
+        output.connect(soundOutput);
+        const reverb = audio.createConvolver(), wet = audio.createGain();
+        const impulse = audio.createBuffer(2, Math.floor(audio.sampleRate * 2.5), audio.sampleRate);
+        for (let channel = 0; channel < impulse.numberOfChannels; channel++) {
+          const samples = impulse.getChannelData(channel);
+          for (let i = 0; i < samples.length; i++) samples[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / samples.length, 3);
+        }
+        reverb.buffer = impulse; wet.gain.value = .3;
+        output.connect(reverb); reverb.connect(wet); wet.connect(soundOutput);
+
+        // A soft, slowly moving chord with detuned harmonics and spacious bell tones.
+        [110, 164.81, 220, 329.63].forEach((frequency, index) => {
+          const oscillator = audio.createOscillator(), voice = audio.createGain();
+          const lfo = audio.createOscillator(), movement = audio.createGain();
+          oscillator.type = 'sine'; oscillator.frequency.value = frequency;
+          oscillator.detune.value = index % 2 ? 3 : -3;
+          voice.gain.value = index < 2 ? .035 : .015;
+          lfo.frequency.value = .055 + index * .011;
+          movement.gain.value = index < 2 ? .012 : .006;
+          lfo.connect(movement); movement.connect(voice.gain);
+          oscillator.connect(voice); voice.connect(output);
+          oscillator.start(now); lfo.start(now);
+          sources.push(oscillator, lfo);
+        });
+        const elapsed = Math.max(0, (performance.now() - startedAt) / 1000);
+        const notes = [440, 554.37, 659.25, 830.61, 659.25, 554.37];
+        for (let second = Math.ceil(elapsed / 8) * 8; second < 120; second += 8) {
+          const start = now + second - elapsed, note = notes[Math.floor(second / 8) % notes.length];
+          [1, 2.01, 3.97].forEach((multiple, index) => {
+            const oscillator = audio.createOscillator(), envelope = audio.createGain();
+            oscillator.type = 'sine'; oscillator.frequency.value = note * multiple;
+            envelope.gain.setValueAtTime(.0001, start);
+            envelope.gain.exponentialRampToValueAtTime([.025,.008,.003][index], start + .08);
+            envelope.gain.exponentialRampToValueAtTime(.0001, start + 5);
+            oscillator.connect(envelope); envelope.connect(output);
+            oscillator.start(start); oscillator.stop(start + 5.1);
+            sources.push(oscillator);
+          });
+        }
+        bath = {output, reverb, wet, sources};
+      }
+      function stopBath() {
+        if (!bath) return;
+        const current = bath, now = audio.currentTime;
+        bath = null;
+        current.output.gain.cancelScheduledValues(now);
+        current.output.gain.setTargetAtTime(0, now, .15);
+        current.sources.forEach(source => { try { source.stop(now + 1); } catch (error) { if (error.name !== 'InvalidStateError') throw error; } });
+        setTimeout(() => { current.output.disconnect(); current.reverb.disconnect(); current.wet.disconnect(); }, 4000);
+      }
+      function tone(freq, gain, duration, type = 'sine') {
+        const now = audio.currentTime, oscillator = audio.createOscillator(), envelope = audio.createGain();
+        oscillator.type = type; oscillator.frequency.setValueAtTime(freq, now);
+        envelope.gain.setValueAtTime(0.0001, now);
+        envelope.gain.exponentialRampToValueAtTime(gain, now + 0.035);
+        envelope.gain.exponentialRampToValueAtTime(0.0001, now + duration);
+        oscillator.connect(envelope); envelope.connect(soundOutput);
+        oscillator.start(now); oscillator.stop(now + duration + .05);
+      }
+      function chime() { if (!muted && audio && audio.state === 'running') { tone(523.25,.045,1.3); tone(1046.5,.012,.9); } }
+      function gong() {
+        if (!muted && audio && audio.state === 'running') {
+          tone(110,.10,5); tone(165,.035,4.2); tone(221,.025,3.8); tone(330,.012,3);
+        }
+      }
+      let running = false, startedAt = 0, lastPhase = -1, frame, finishTimer;
+      const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+      function stopSession() {
+        running = false; cancelAnimationFrame(frame); clearTimeout(finishTimer);
+        stopBath();
+        $('start').textContent = 'Begin your reset  →';
+        $('orb').style.transform = '';
+        $('orb-label').textContent = 'your moment';
+        $('phase').textContent = 'Ready?'; $('phase-time').textContent = '2:00';
+        $('remaining').textContent = 'AT YOUR OWN PACE';
+        $('session-message').textContent = 'You can begin again whenever you like.';
+      }
+      function finishSession() {
+        running = false;
+        cancelAnimationFrame(frame); clearTimeout(finishTimer);
+        stopBath();
+        $('orb').style.transform = '';
+        $('orb-label').textContent = 'well done'; $('phase').textContent = 'You did it.'; $('phase-time').textContent = '2:00 complete';
+        $('remaining').textContent = '12 BREATHS COMPLETE'; $('start').textContent = 'Breathe again  →';
+        gong();
+        const result = recordStreak();
+        $('session-message').textContent = result.saved
+          ? 'A little moment, just for you. ' + result.count + ' day' + (result.count === 1 ? '' : 's') + ' of showing up. ✨'
+          : 'A little moment, just for you. Your streak could not be saved in this browser.';
+      }
+      function tick() {
+        if (!running) return;
+        const elapsed = Math.max(0, performance.now() - startedAt);
+        if (elapsed >= 120000) { finishSession(); return; }
+        const cycleTime = elapsed % 10000, inhale = cycleTime < 4000;
+        const phaseIndex = Math.floor(elapsed / 10000) * 2 + (inhale ? 0 : 1);
+        if (phaseIndex !== lastPhase) { lastPhase = phaseIndex; chime(); }
+        const progress = inhale ? cycleTime / 4000 : 1 - (cycleTime - 4000) / 6000;
+        const eased = (1 - Math.cos(Math.PI * progress)) / 2;
+        $('orb').style.transform = reducedMotion.matches ? '' : 'scale(' + (0.82 + eased * 0.3) + ')';
+        $('orb-label').textContent = 'follow your breath';
+        $('phase').textContent = inhale ? 'Inhale for 4s' : 'Exhale for 6s';
+        $('phase-time').textContent = inhale ? 'breathe in' : 'breathe out';
+        const seconds = Math.ceil((120000 - elapsed) / 1000);
+        $('remaining').textContent = Math.floor(seconds/60) + ':' + String(seconds%60).padStart(2,'0') + ' REMAINING';
+        frame = requestAnimationFrame(tick);
+      }
+      function scheduleFinish() {
+        const remaining = 120000 - (performance.now() - startedAt);
+        if (remaining <= 0) { if (running) finishSession(); return; }
+        finishTimer = setTimeout(scheduleFinish, remaining);
+      }
+      $('start').addEventListener('click', () => {
+        if (running) { stopSession(); return; }
+        running = true; startedAt = performance.now(); lastPhase = -1;
+        $('start').textContent = 'End session'; $('session-message').textContent = 'Let your shoulders soften. You’re right where you need to be.';
+        unlockAudio().then(() => { if (running && !muted) startBath(); });
+        tick(); scheduleFinish();
+      });
+      document.addEventListener('visibilitychange', () => { if (!document.hidden && running) { cancelAnimationFrame(frame); tick(); } });
+      const timeInput = $('reminder-time');
+      const savedReminder = storage.get(keys.reminder);
+      if (savedReminder && /^\d{2}:\d{2}$/.test(savedReminder)) timeInput.value = savedReminder;
+      function reminderStatus(text) { $('reminder-status').textContent = text; }
+      function validTime() { if (!timeInput.value) { reminderStatus('Choose a reminder time first.'); return false; } return true; }
+      $('enable-reminder').addEventListener('click', async () => {
+        if (!validTime()) return;
+        if (!('Notification' in window)) { reminderStatus('Notifications are unavailable here. Try the calendar option.'); return; }
+        try {
+          const permission = await Notification.requestPermission();
+          if (permission !== 'granted') { reminderStatus('Notifications were not allowed. You can use the calendar instead.'); return; }
+          if (!storage.set(keys.reminder, timeInput.value)) { reminderStatus('Reminder could not be saved in this browser. Try the calendar option.'); return; }
+          reminderStatus('Reminder set for ' + timeInput.value + ' while this page is open.');
+          checkReminder();
+        } catch { reminderStatus('Could not enable notifications here. Try the calendar option.'); }
+      });
+      timeInput.addEventListener('change', () => {
+        if (storage.get(keys.reminder) && timeInput.value) {
+          if (storage.set(keys.reminder, timeInput.value)) reminderStatus('Reminder updated to ' + timeInput.value + ' while this page is open.');
+          else reminderStatus('Reminder could not be saved. Try the calendar option.');
+        }
+      });
+      function checkReminder() {
+        const time = storage.get(keys.reminder), now = new Date();
+        if (!time || !('Notification' in window) || Notification.permission !== 'granted') return;
+        const current = String(now.getHours()).padStart(2,'0') + ':' + String(now.getMinutes()).padStart(2,'0');
+        if (current !== time || storage.get(keys.notified) === todayKey(now)) return;
+        try {
+          new Notification('A little room to breathe', {body:'Your two-minute reset is ready whenever you are.'});
+          storage.set(keys.notified, todayKey(now));
+        } catch { reminderStatus('This browser could not show a notification. Try the calendar option.'); }
+      }
+      setInterval(checkReminder, 15000);
+      document.addEventListener('visibilitychange', () => { if (!document.hidden) checkReminder(); });
+      if (savedReminder && 'Notification' in window && Notification.permission === 'granted') reminderStatus('Reminder set for ' + savedReminder + ' while this page is open.');
+      $('calendar').addEventListener('click', () => {
+        if (!validTime()) return;
+        const now = new Date(), [hours, minutes] = timeInput.value.split(':').map(Number);
+        const start = new Date(now.getFullYear(), now.getMonth(), now.getDate(), hours, minutes);
+        if (start <= now) start.setDate(start.getDate()+1);
+        const end = new Date(start.getTime()+120000);
+        const stamp = d => String(d.getFullYear()) + String(d.getMonth()+1).padStart(2,'0') + String(d.getDate()).padStart(2,'0') + 'T' + String(d.getHours()).padStart(2,'0') + String(d.getMinutes()).padStart(2,'0') + '00';
+        const utc = new Date().toISOString().replace(/[-:]/g,'').replace(/\.\d{3}Z$/,'Z');
+        const ics = ['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Stillpoint//Daily breathing//EN','BEGIN:VEVENT','UID:stillpoint-' + Date.now() + '@local','DTSTAMP:' + utc,'DTSTART:' + stamp(start),'DTEND:' + stamp(end),'RRULE:FREQ=DAILY','SUMMARY:Two minutes to breathe','DESCRIPTION:A little space for yourself.','BEGIN:VALARM','TRIGGER:-PT0M','ACTION:DISPLAY','DESCRIPTION:Time for a little breathing break','END:VALARM','END:VEVENT','END:VCALENDAR',''].join('\r\n');
+        const url = URL.createObjectURL(new Blob([ics], {type:'text/calendar;charset=utf-8'}));
+        const link = document.createElement('a'); link.href = url; link.download = 'stillpoint-daily-reminder.ics'; link.click();
+        setTimeout(() => URL.revokeObjectURL(url), 1000);
+        reminderStatus('Calendar file downloaded. Open it to add your daily reminder.');
+      });
+    })();
+  </script>
+</body>
+</html>
